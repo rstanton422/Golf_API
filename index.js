@@ -1,6 +1,5 @@
 require("dotenv").config();
 const {API_KEY} = process.env;
-console.log(API_KEY)
 
 const express = require("express");
 const app = express();
@@ -8,10 +7,8 @@ const request = require("request");
 
 
 const baseURL = "https://api.sportsdata.io/golf/v2/json"
-const api_name = "Ocp-Apim-Subscription-Key"
 const tournamentid = 497
 
-console.log(api_name)
 
 app.get("/leaderboard", (req,res) => {
     let route = `Leaderboard/${tournamentid}`
@@ -19,13 +16,13 @@ app.get("/leaderboard", (req,res) => {
 
     const options = {
         url: endpoint,
-        headers: { "Ocp-Apim-Subscription-Key" : "c0e825f17bdf495b8b04bfbd934cf557" }
+        headers: { "Ocp-Apim-Subscription-Key" : API_KEY }
     };
 
     function callback(error, response, body) {
         if (!error && response.statusCode == 200) {
             const info = JSON.parse(body);
-            console.log(info.Players[0].Name, info.Players[0].Country, info.Players[0].PlayerID);
+            console.log(info.Players[0]);
             res.render("leaderboard.ejs", {data: info.Players})
             }
         }
